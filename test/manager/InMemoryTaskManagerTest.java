@@ -8,6 +8,7 @@ import task.Subtask;
 import task.Task;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -43,7 +44,7 @@ class InMemoryTaskManagerTest {
 
     @Test
     public void shouldBePositiveWhenGetTaskList() {
-        ArrayList<Task> tasks = new ArrayList<>();
+        List<Task> tasks = new ArrayList<>();
         tasks.add(task1);
         tasks.add(task2);
         assertEquals(tasks, taskManager.getTasksList());
@@ -51,7 +52,7 @@ class InMemoryTaskManagerTest {
 
     @Test
     public void shouldBePositiveWhenGetEpicList() {
-        ArrayList<Epic> epics = new ArrayList<>();
+        List<Epic> epics = new ArrayList<>();
         epics.add(epic1);
         epics.add(epic2);
         assertEquals(epics, taskManager.getEpicsList());
@@ -59,7 +60,7 @@ class InMemoryTaskManagerTest {
 
     @Test
     public void shouldBePositiveWhenGetSubtaskList() {
-        ArrayList<Subtask> subtasks = new ArrayList<>();
+        List<Subtask> subtasks = new ArrayList<>();
         subtasks.add(subtask1);
         subtasks.add(subtask2);
         subtasks.add(subtask3);
@@ -68,7 +69,7 @@ class InMemoryTaskManagerTest {
 
     @Test
     public void shouldBePositiveWhenGetSubtaskListByEpic() {
-        ArrayList<Subtask> subtasks = new ArrayList<>();
+        List<Subtask> subtasks = new ArrayList<>();
         subtasks.add(subtask1);
         subtasks.add(subtask2);
         subtasks.add(subtask3);
@@ -106,9 +107,9 @@ class InMemoryTaskManagerTest {
     @Test
     public void shouldBePositiveWhenChangeSomeField(){
         taskManager.getTaskById(task1.getId());
-        ArrayList<Task> historyBeforeChange = taskManager.getHistory();
+        List<Task> historyBeforeChange = taskManager.getHistory();
         task1.setName("changedTask1");
-        ArrayList<Task> historyAfterChange = taskManager.getHistory();
+        List<Task> historyAfterChange = taskManager.getHistory();
         assertEquals(historyBeforeChange.getFirst().getName(), historyAfterChange.getFirst().getName());
     }
 
