@@ -24,7 +24,7 @@ public class Main {
         Epic emptyEpic = new Epic("Empty Epic", "it's empty");
         taskManager.addNewEpic(emptyEpic);
 
-        //Запросите созданные задачи несколько раз в разном порядке.После каждого запроса выведите историю и убедитесь,
+        //Запросите созданные задачи несколько раз в разном порядке. После каждого запроса выведите историю и убедитесь,
         // что в ней нет повторов.
         taskManager.getTaskById(firstTask.getId());
         taskManager.getEpicById(firstEpic.getId());
