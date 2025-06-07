@@ -90,17 +90,24 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    public void shouldBePositiveWhenGetHistoryMoreThan10Times() {
+    public void shouldBePositiveWhenGetTheSameTaskAFewTimes() {
         for (int i = 0; i < 11; i++) {
             taskManager.getTaskById(0);
         }
-        assertEquals(10, taskManager.getHistory().size());
+        assertEquals(1, taskManager.getHistory().size());
     }
 
     @Test
-    public void shouldBePositiveWhenRemoveSubtaskAndUpdateEpicStatus(){
+    public void shouldBePositiveWhenRemoveSubtask(){
+        ArrayList<Integer> subtaskIds = new ArrayList<>();
+        subtaskIds.add(subtask1.getId());
+        subtaskIds.add(subtask2.getId());
+        subtaskIds.add(subtask3.getId());
+        assertEquals(subtaskIds, epic1.getSubtaskIds());
         assertEquals(Status.IN_PROGRESS, epic1.getStatus());
         taskManager.removeSubtaskById(subtask2.getId());
+        subtaskIds.remove(Integer.valueOf(subtask2.getId()));
+        assertEquals(subtaskIds, epic1.getSubtaskIds());
         assertEquals(Status.NEW, epic1.getStatus());
     }
 
