@@ -27,16 +27,16 @@ public class InMemoryHistoryManager implements HistoryManager {
     public List<Task> getHistory() {
         List<Task> historyList = new ArrayList<>();
         Node node = first;
-        while (node != null){
+        while (node != null) {
             historyList.add(node.task);
             node = node.next;
         }
         return historyList;
     }
 
-    public void linkLast (Task task){
-        Node node = new Node (task.returnCopy(), null, last);
-        if (first == null){
+    public void linkLast(Task task) {
+        Node node = new Node(task.returnCopy(), null, last);
+        if (first == null) {
             first = node;
         } else {
             last.next = node;
@@ -45,7 +45,7 @@ public class InMemoryHistoryManager implements HistoryManager {
         history.put(task.getId(), node);
     }
 
-    public void removeNode (Node node) {
+    public void removeNode(Node node) {
         if (node == null) {
             return;
         }
