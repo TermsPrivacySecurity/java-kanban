@@ -34,7 +34,7 @@ public class InMemoryHistoryManager implements HistoryManager {
         return historyList;
     }
 
-    public void linkLast(Task task) {
+    private void linkLast(Task task) {
         Node node = new Node(task.returnCopy(), null, last);
         if (first == null) {
             first = node;
@@ -45,7 +45,7 @@ public class InMemoryHistoryManager implements HistoryManager {
         history.put(task.getId(), node);
     }
 
-    public void removeNode(Node node) {
+    private void removeNode(Node node) {
         if (node == null) {
             return;
         }
