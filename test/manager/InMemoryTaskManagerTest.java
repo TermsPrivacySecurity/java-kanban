@@ -98,7 +98,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    public void shouldBePositiveWhenRemoveSubtask(){
+    public void shouldBePositiveWhenRemoveSubtask() {
         ArrayList<Integer> subtaskIds = new ArrayList<>();
         subtaskIds.add(subtask1.getId());
         subtaskIds.add(subtask2.getId());
@@ -112,7 +112,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    public void shouldBePositiveWhenChangeSomeField(){
+    public void shouldBePositiveWhenChangeSomeField() {
         taskManager.getTaskById(task1.getId());
         List<Task> historyBeforeChange = taskManager.getHistory();
         task1.setName("changedTask1");
@@ -121,14 +121,14 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    public void shouldBeEmptyAfterRemoveAllEpics(){
+    public void shouldBeEmptyAfterRemoveAllEpics() {
         taskManager.removeAllEpics();
         assertTrue(taskManager.getEpicsList().isEmpty());
         assertTrue(taskManager.getSubtasksList().isEmpty());
     }
 
     @Test
-    public void shouldBeEmptyAfterRemoveAllSubtasks(){
+    public void shouldBeEmptyAfterRemoveAllSubtasks() {
         taskManager.removeAllSubtasks();
         assertTrue(taskManager.getSubtasksList().isEmpty());
         assertTrue(taskManager.getEpicById(epic1.getId()).getSubtaskIds().isEmpty());

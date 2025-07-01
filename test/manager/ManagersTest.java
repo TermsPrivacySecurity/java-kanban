@@ -8,7 +8,7 @@ class ManagersTest {
 
 
     @Test
-    public void shouldBeNotNullWhenCreated(){
+    public void shouldBeNotNullWhenCreated() {
         assertNotNull(Managers.getDefault());
         assertNotNull(Managers.getDefaultHistory());
     }

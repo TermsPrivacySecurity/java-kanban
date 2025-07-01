@@ -46,14 +46,13 @@ public class Task {
         return description;
     }
 
+    public Type getType() {
+        return Type.TASK;
+    }
+
     @Override
     public String toString() {
-        return "task.Task{" +
-                "name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", status=" + status +
-                ", id=" + id +
-                '}';
+        return String.format("%s,%s,%s,%s,%s", id, getType(), name, status, description);
     }
 
     @Override
@@ -72,6 +71,13 @@ public class Task {
     public Task returnCopy() {
         Task task = new Task(this.name, this.description, this.status);
         task.id = this.id;
+        return task;
+    }
+
+    public static Task fromString(String string) {
+        String[] split = string.split(",");
+        Task task = new Task(split[2], split[4], Status.valueOf(split[3]));
+        task.id = Integer.parseInt(split[0]);
         return task;
     }
 }
