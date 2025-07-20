@@ -9,15 +9,14 @@ public class Managers {
         return new InMemoryTaskManager();
     }
 
-    public static FileBackedTaskManager loadFromFile(File file) {
-        FileBackedTaskManager manager = new FileBackedTaskManager(file);
+    public static FileBackedTaskManager getFromFile(File file) {
         try {
-            manager.load();
+            return FileBackedTaskManager.load(file);
         } catch (ManagerLoadException e) {
             System.out.println("Return new TaskManager");
             return new FileBackedTaskManager(file);
         }
-        return manager;
+
     }
 
     public static HistoryManager getDefaultHistory() {

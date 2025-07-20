@@ -1,7 +1,7 @@
 package manager;
 
 import task.Epic;
-import task.Status;
+import task.TaskStatus;
 import task.Subtask;
 import task.Task;
 
@@ -163,7 +163,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     private void updateEpicStatus(int epicId) {
         if (epics.get(epicId).getSubtaskIds().isEmpty()) {
-            epics.get(epicId).setStatus(Status.NEW);
+            epics.get(epicId).setStatus(TaskStatus.NEW);
             return;
         }
         int iterationCount = 0;
@@ -173,11 +173,11 @@ public class InMemoryTaskManager implements TaskManager {
             sumStatusOrdinals += subtasks.get(id).getStatus().ordinal();
         }
         if (sumStatusOrdinals == 0) {
-            epics.get(epicId).setStatus(Status.NEW);
-        } else if (sumStatusOrdinals == (iterationCount * Status.DONE.ordinal())) {
-            epics.get(epicId).setStatus(Status.DONE);
+            epics.get(epicId).setStatus(TaskStatus.NEW);
+        } else if (sumStatusOrdinals == (iterationCount * TaskStatus.DONE.ordinal())) {
+            epics.get(epicId).setStatus(TaskStatus.DONE);
         } else {
-            epics.get(epicId).setStatus(Status.IN_PROGRESS);
+            epics.get(epicId).setStatus(TaskStatus.IN_PROGRESS);
         }
 
     }

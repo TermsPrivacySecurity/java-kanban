@@ -3,14 +3,10 @@ package task;
 public class Subtask extends Task {
     private int epicId;
 
-    public Subtask(String name, String description, Status status, int epicId) {
-        super(name, description, status);
+    public Subtask(String name, String description, int epicId) {
+        super(name, description);
         this.epicId = epicId;
-    }
-
-    @Override
-    public Type getType() {
-        return Type.SUBTASK;
+        this.type = TaskType.SUBTASK;
     }
 
     @Override
@@ -21,8 +17,9 @@ public class Subtask extends Task {
 
     @Override
     public Task returnCopy() {
-        Task subtask = new Subtask(this.getName(), this.getDescription(), this.getStatus(), this.epicId);
+        Task subtask = new Subtask(this.getName(), this.getDescription(), this.epicId);
         subtask.setId(this.getId());
+        subtask.setStatus(this.getStatus());
         return subtask;
     }
 
@@ -32,8 +29,9 @@ public class Subtask extends Task {
 
     public static Subtask fromString(String string) {
         String[] split = string.split(",");
-        Subtask subtask = new Subtask(split[2], split[4], Status.valueOf(split[3]), Integer.parseInt(split[5]));
+        Subtask subtask = new Subtask(split[2], split[4], Integer.parseInt(split[5]));
         subtask.setId(Integer.parseInt(split[0]));
+        subtask.setStatus(TaskStatus.valueOf(split[3]));
         return subtask;
     }
 }

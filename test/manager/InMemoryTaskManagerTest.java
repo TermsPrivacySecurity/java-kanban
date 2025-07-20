@@ -3,7 +3,7 @@ package manager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import task.Epic;
-import task.Status;
+import task.TaskStatus;
 import task.Subtask;
 import task.Task;
 
@@ -25,19 +25,20 @@ class InMemoryTaskManagerTest {
     @BeforeEach
     public void beforeEach() {
         taskManager = Managers.getDefault();
-        task1 = new Task("task1", "description1", Status.NEW);
+        task1 = new Task("task1", "description1");
         taskManager.addNewTask(task1);
-        task2 = new Task("task2", "description2", Status.IN_PROGRESS);
+        task2 = new Task("task2", "description2");
         taskManager.addNewTask(task2);
         epic1 = new Epic("epic1", "description1");
         taskManager.addNewEpic(epic1);
         epic2 = new Epic("epic2", "description2");
         taskManager.addNewEpic(epic2);
-        subtask1 = new Subtask("subtask1", "description1", Status.NEW, epic1.getId());
+        subtask1 = new Subtask("subtask1", "description1", epic1.getId());
         taskManager.addNewSubtask(subtask1);
-        subtask2 = new Subtask("subtask2", "description2", Status.IN_PROGRESS, epic1.getId());
+        subtask2 = new Subtask("subtask2", "description2", epic1.getId());
+        subtask2.setStatus(TaskStatus.IN_PROGRESS);
         taskManager.addNewSubtask(subtask2);
-        subtask3 = new Subtask("subtask3", "description3", Status.NEW, epic1.getId());
+        subtask3 = new Subtask("subtask3", "description3", epic1.getId());
         taskManager.addNewSubtask(subtask3);
 
     }
@@ -104,11 +105,11 @@ class InMemoryTaskManagerTest {
         subtaskIds.add(subtask2.getId());
         subtaskIds.add(subtask3.getId());
         assertEquals(subtaskIds, epic1.getSubtaskIds());
-        assertEquals(Status.IN_PROGRESS, epic1.getStatus());
+        assertEquals(TaskStatus.IN_PROGRESS, epic1.getStatus());
         taskManager.removeSubtaskById(subtask2.getId());
         subtaskIds.remove(Integer.valueOf(subtask2.getId()));
         assertEquals(subtaskIds, epic1.getSubtaskIds());
-        assertEquals(Status.NEW, epic1.getStatus());
+        assertEquals(TaskStatus.NEW, epic1.getStatus());
     }
 
     @Test

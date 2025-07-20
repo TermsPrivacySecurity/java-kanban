@@ -9,7 +9,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 
-public class FileBackedTaskManager extends InMemoryTaskManager implements TaskManager {
+public class FileBackedTaskManager extends InMemoryTaskManager {
     private final File file;
 
     public FileBackedTaskManager(File file) {
@@ -20,25 +20,27 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         return file;
     }
 
-    public void load() {
+    public static FileBackedTaskManager load(File file) {
+        FileBackedTaskManager manager = new FileBackedTaskManager(file);
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file, StandardCharsets.UTF_8))) {
             bufferedReader.readLine();
             while (bufferedReader.ready()) {
                 String line = bufferedReader.readLine();
                 String[] split = line.split(",");
                 int id = Integer.parseInt(split[0]);
-                Type type = Type.valueOf(split[1]);
+                TaskType type = TaskType.valueOf(split[1]);
 
-                if (nextId < id) {
-                    nextId = id;
+                if (manager.nextId < id) {
+                    manager.nextId = id;
                 }
                 switch (type) {
-                    case TASK -> tasks.put(id, Task.fromString(line));
-                    case EPIC -> epics.put(id, Epic.fromString(line));
-                    case SUBTASK -> subtasks.put(id, Subtask.fromString(line));
+                    case TASK -> manager.tasks.put(id, Task.fromString(line));
+                    case EPIC -> manager.epics.put(id, Epic.fromString(line));
+                    case SUBTASK -> manager.subtasks.put(id, Subtask.fromString(line));
                 }
             }
-            nextId++;
+            manager.nextId++;
+            return manager;
         } catch (IOException e) {
             throw new ManagerLoadException("Load exception.");
         }
