@@ -80,20 +80,20 @@ class InMemoryTaskManagerTest {
 
     @Test
     public void shouldBePositiveWhenGetTaskById() {
-        assertEquals(task1, taskManager.getTaskById(0));
-        assertEquals(task2, taskManager.getTaskById(1));
+        assertEquals(task1, taskManager.getTaskById(task1.getId()));
+        assertEquals(task2, taskManager.getTaskById(task2.getId()));
     }
 
     @Test
     public void shouldBeNegativeWhenGetHistory() {
-        taskManager.getTaskById(0);
+        taskManager.getTaskById(task1.getId());
         assertNotEquals(new ArrayList<>(), taskManager.getHistory());
     }
 
     @Test
     public void shouldBePositiveWhenGetTheSameTaskAFewTimes() {
         for (int i = 0; i < 11; i++) {
-            taskManager.getTaskById(0);
+            taskManager.getTaskById(task1.getId());
         }
         assertEquals(1, taskManager.getHistory().size());
     }

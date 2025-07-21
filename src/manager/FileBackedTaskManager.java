@@ -39,7 +39,9 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                     case SUBTASK -> manager.subtasks.put(id, Subtask.fromString(line));
                 }
             }
-            manager.nextId++;
+            if (manager.nextId != 1) {
+                manager.nextId++;
+            }
             return manager;
         } catch (IOException e) {
             throw new ManagerLoadException("Load exception.");
