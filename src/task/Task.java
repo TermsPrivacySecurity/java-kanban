@@ -5,16 +5,18 @@ import java.util.Objects;
 public class Task {
     private String name;
     private String description;
-    private Status status;
+    private TaskStatus status;
+    protected TaskType type;
     private int id;
 
-    public Task(String name, String description, Status status) {
+    public Task(String name, String description) {
         this.name = name;
         this.description = description;
-        this.status = status;
+        this.status = TaskStatus.NEW;
+        this.type = TaskType.TASK;
     }
 
-    public Status getStatus() {
+    public TaskStatus getStatus() {
         return status;
     }
 
@@ -26,7 +28,7 @@ public class Task {
         this.description = description;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(TaskStatus status) {
         this.status = status;
     }
 
@@ -46,14 +48,13 @@ public class Task {
         return description;
     }
 
+    public TaskType getType() {
+        return type;
+    }
+
     @Override
     public String toString() {
-        return "task.Task{" +
-                "name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", status=" + status +
-                ", id=" + id +
-                '}';
+        return String.format("%s,%s,%s,%s,%s", id, getType(), name, status, description);
     }
 
     @Override
@@ -70,8 +71,17 @@ public class Task {
     }
 
     public Task returnCopy() {
-        Task task = new Task(this.name, this.description, this.status);
+        Task task = new Task(this.name, this.description);
         task.id = this.id;
+        task.status = this.status;
+        return task;
+    }
+
+    public static Task fromString(String string) {
+        String[] split = string.split(",");
+        Task task = new Task(split[2], split[4]);
+        task.id = Integer.parseInt(split[0]);
+        task.status = TaskStatus.valueOf(split[3]);
         return task;
     }
 }
