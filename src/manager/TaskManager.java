@@ -3,9 +3,12 @@ package manager;
 import task.Epic;
 import task.Subtask;
 import task.Task;
+
 import java.util.List;
 
 public interface TaskManager {
+    List<Task> getPrioritizedTasks();
+
     List<Task> getTasksList();
 
     List<Subtask> getSubtasksList();
