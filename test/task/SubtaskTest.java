@@ -10,8 +10,10 @@ class SubtaskTest {
 
     @Test
     public void shouldBePositiveWhenSubtasksEqualsById() {
-        Subtask subtask1 = new Subtask("Subtask1", "description1", 1, 60, LocalDateTime.parse("01.01.2025 10:10", Task.formatter));
-        Subtask subtask2 = new Subtask("Subtask2", "description1", 2, 600, LocalDateTime.parse("01.02.2025 10:10", Task.formatter));
+        Subtask subtask1 = new Subtask("Subtask1", "description1", 1, 60,
+                LocalDateTime.parse("2025-01-01T10:00:00"));
+        Subtask subtask2 = new Subtask("Subtask2", "description1", 2, 600,
+                LocalDateTime.parse("2025-02-01T10:10:00"));
         subtask1.setId(1);
         subtask2.setId(1);
         Assertions.assertEquals(subtask1, subtask2);
@@ -19,7 +21,8 @@ class SubtaskTest {
 
     @Test
     public void shouldBePositiveWhenGetSubtaskFromString() {
-        Subtask subtask1 = new Subtask("Task1", "description1", 0, 60, LocalDateTime.parse("01.01.2025 10:10", Task.formatter));
+        Subtask subtask1 = new Subtask("Task1", "description1", 0, 60,
+                LocalDateTime.parse("2025-01-01T10:10:00"));
         Subtask subtask2 = Subtask.fromString(subtask1.toString());
         assertEquals(subtask1, subtask2);
     }

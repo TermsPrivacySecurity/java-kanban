@@ -25,31 +25,31 @@ abstract class TaskManagerTest<T extends TaskManager> {
     @BeforeEach
     public void beforeEach() throws IOException {
         task1 = new Task("task1", "description1", 60,
-                LocalDateTime.parse("01.01.2025 09:00", Task.formatter));
+                LocalDateTime.parse("2025-01-01T09:00:00"));
         taskManager.addNewTask(task1);
         task2 = new Task("task2", "description2", 180,
-                LocalDateTime.parse("01.02.2025 09:00", Task.formatter));
+                LocalDateTime.parse("2025-02-01T09:00:00"));
         taskManager.addNewTask(task2);
         epic1 = new Epic("epic1", "description1");
         taskManager.addNewEpic(epic1);
         epic2 = new Epic("epic2", "description2");
         taskManager.addNewEpic(epic2);
         subtask1 = new Subtask("subtask1", "description1", epic1.getId(), 60,
-                LocalDateTime.parse("01.01.2025 10:10", Task.formatter));
+                LocalDateTime.parse("2025-01-01T10:10:00"));
         taskManager.addNewSubtask(subtask1);
         subtask2 = new Subtask("subtask2", "description2", epic1.getId(), 60,
-                LocalDateTime.parse("02.01.2025 10:00", Task.formatter));
+                LocalDateTime.parse("2025-01-02T10:00:00"));
         subtask2.setStatus(TaskStatus.IN_PROGRESS);
         taskManager.addNewSubtask(subtask2);
         subtask3 = new Subtask("subtask3", "description3", epic1.getId(), 90,
-                LocalDateTime.parse("03.01.2025 09:00", Task.formatter));
+                LocalDateTime.parse("2025-01-03T09:00:00"));
         taskManager.addNewSubtask(subtask3);
     }
 
     @Test
     public void shouldBeNegativeWhenTaskIsCrossing() {
         Task crossingTask = new Task("crossing task", "this task crossing with task1",
-                60, LocalDateTime.parse("01.01.2025 09:20", Task.formatter));
+                60, LocalDateTime.parse("2025-01-01T09:20:00"));
         taskManager.addNewTask(crossingTask);
         assertFalse(taskManager.getPrioritizedTasks().contains(crossingTask));
     }
@@ -57,7 +57,7 @@ abstract class TaskManagerTest<T extends TaskManager> {
     @Test
     public void shouldBePositiveWhenTaskIsNotCrossing() {
         Task notCrossingTask = new Task("not crossing task", "this task isn't crossing with anything",
-                60, LocalDateTime.parse("01.01.2025 11:10", Task.formatter));
+                60, LocalDateTime.parse("2025-01-01T11:10:00"));
         taskManager.addNewTask(notCrossingTask);
         assertTrue(taskManager.getPrioritizedTasks().contains(notCrossingTask));
     }

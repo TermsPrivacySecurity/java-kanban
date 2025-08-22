@@ -1,8 +1,9 @@
 package task;
 
 import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.time.ZoneId;
 import java.util.Objects;
 
 public class Task {
@@ -13,7 +14,15 @@ public class Task {
     private int id;
     private Duration duration;
     private LocalDateTime startTime;
-    public static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+
+    public Task(String name, String description) {
+        this.name = name;
+        this.description = description;
+        this.status = TaskStatus.NEW;
+        this.type = TaskType.TASK;
+        this.duration = Duration.ofMinutes(5);
+        this.startTime = LocalDateTime.ofInstant(Instant.now(), ZoneId.of("+05:00"));
+    }
 
     public Task(String name, String description, long duration, LocalDateTime startTime) {
         this.name = name;
@@ -83,7 +92,7 @@ public class Task {
     @Override
     public String toString() {
         return String.format("%s,%s,%s,%s,%s,%s,%s", id, getType(), name, status, description, duration.toMinutes(),
-                startTime.format(formatter));
+                startTime);
     }
 
     @Override
@@ -109,7 +118,7 @@ public class Task {
     public static Task fromString(String string) {
         String[] split = string.split(",");
         Task task = new Task(split[2], split[4], Long.parseLong(split[5]),
-                LocalDateTime.parse(split[6], formatter));
+                LocalDateTime.parse(split[6]));
         task.id = Integer.parseInt(split[0]);
         task.status = TaskStatus.valueOf(split[3]);
         return task;

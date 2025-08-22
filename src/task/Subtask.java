@@ -5,6 +5,12 @@ import java.time.LocalDateTime;
 public class Subtask extends Task {
     private final int epicId;
 
+    public Subtask(String name, String description, int epicId) {
+        super(name, description);
+        this.epicId = epicId;
+        this.type = TaskType.SUBTASK;
+    }
+
     public Subtask(String name, String description, int epicId, long duration, LocalDateTime startTime) {
         super(name, description, duration, startTime);
         this.epicId = epicId;
@@ -14,7 +20,7 @@ public class Subtask extends Task {
     @Override
     public String toString() {
         return String.format("%s,%s,%s,%s,%s,%s,%s,%s", getId(), getType(), getName(), getStatus(),
-                getDescription(), epicId, getDuration().toMinutes(), getStartTime().format(formatter));
+                getDescription(), epicId, getDuration().toMinutes(), getStartTime());
     }
 
     @Override
@@ -33,7 +39,7 @@ public class Subtask extends Task {
     public static Subtask fromString(String string) {
         String[] split = string.split(",");
         Subtask subtask = new Subtask(split[2], split[4], Integer.parseInt(split[5]),
-                Long.parseLong(split[6]), LocalDateTime.parse(split[7], formatter));
+                Long.parseLong(split[6]), LocalDateTime.parse(split[7]));
         subtask.setId(Integer.parseInt(split[0]));
         subtask.setStatus(TaskStatus.valueOf(split[3]));
         return subtask;
