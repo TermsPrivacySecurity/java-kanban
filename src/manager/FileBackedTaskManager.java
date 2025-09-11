@@ -34,9 +34,17 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                     manager.nextId = id;
                 }
                 switch (type) {
-                    case TASK -> manager.tasks.put(id, Task.fromString(line));
+                    case TASK -> {
+                        Task task = Task.fromString(line);
+                        manager.tasks.put(id, task);
+                        manager.prioritizedTasks.add(task);
+                    }
                     case EPIC -> manager.epics.put(id, Epic.fromString(line));
-                    case SUBTASK -> manager.subtasks.put(id, Subtask.fromString(line));
+                    case SUBTASK -> {
+                        Subtask subtask = Subtask.fromString(line);
+                        manager.subtasks.put(id, subtask);
+                        manager.prioritizedTasks.add(subtask);
+                    }
                 }
             }
             if (manager.nextId != 1) {
