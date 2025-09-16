@@ -1,0 +1,20 @@
+package server;
+
+public enum Endpoint {
+    GET_TASKS,
+    GET_TASK_BY_ID,
+    GET_SUBTASKS,
+    GET_SUBTASK_BY_ID,
+    GET_EPICS,
+    GET_EPIC_BY_ID,
+    GET_SUBTASKS_BY_EPIC,
+    GET_HISTORY,
+    GET_PRIORITIZED,
+    POST_TASK,
+    POST_SUBTASK,
+    POST_EPIC,
+    DELETE_TASK,
+    DELETE_SUBTASK,
+    DELETE_EPIC,
+    UNKNOWN
+}
