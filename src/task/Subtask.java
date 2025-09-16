@@ -24,8 +24,8 @@ public class Subtask extends Task {
     }
 
     @Override
-    public Task returnCopy() {
-        Task subtask = new Subtask(this.getName(), this.getDescription(),
+    public Subtask returnCopy() {
+        Subtask subtask = new Subtask(this.getName(), this.getDescription(),
                 this.epicId, this.getDuration().toMinutes(), this.getStartTime());
         subtask.setId(this.getId());
         subtask.setStatus(this.getStatus());

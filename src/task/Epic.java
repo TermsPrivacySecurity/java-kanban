@@ -24,8 +24,8 @@ public class Epic extends Task {
     }
 
     @Override
-    public Task returnCopy() {
-        Task epic = new Epic(this.getName(), this.getDescription());
+    public Epic returnCopy() {
+        Epic epic = new Epic(this.getName(), this.getDescription());
         epic.setStatus(this.getStatus());
         epic.setId(this.getId());
         return epic;
