@@ -69,6 +69,16 @@ class SubtasksHandlerTest extends BaseHttpHandlerTest {
         assertEquals(201, response.statusCode());
         assertEquals(4, manager.getSubtasksList().size());
 
+        request = HttpRequest.newBuilder()
+                .POST(HttpRequest.BodyPublishers.ofString("{\"name\":\"subtaskWithoutTimeFields\",\"description\":\"have no duration and startTime\", \"epicId\":3}"))
+                .uri(URI.create("http://localhost:" + HttpTaskServer.PORT + "/subtasks"))
+                .header("Accept", "application/json")
+                .build();
+        assertEquals(4, manager.getSubtasksList().size());
+        response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        assertEquals(201, response.statusCode());
+        assertEquals(5, manager.getSubtasksList().size());
+
         Subtask updatedSubtask = manager.getSubtaskById(5);
         updatedSubtask.setName("updated subtask1");
         request = HttpRequest.newBuilder()

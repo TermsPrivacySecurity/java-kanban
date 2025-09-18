@@ -69,6 +69,16 @@ class TasksHandlerTest extends BaseHttpHandlerTest {
         assertEquals(201, response.statusCode());
         assertEquals(3, manager.getTasksList().size());
 
+        request = HttpRequest.newBuilder()
+                .POST(HttpRequest.BodyPublishers.ofString("{\"name\":\"taskWithoutTimeFields\",\"description\":\"have no duration and startTime\"}"))
+                .uri(URI.create("http://localhost:" + HttpTaskServer.PORT + "/tasks"))
+                .header("Accept", "application/json")
+                .build();
+        assertEquals(3, manager.getTasksList().size());
+        response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        assertEquals(201, response.statusCode());
+        assertEquals(4, manager.getTasksList().size());
+
         Task updatedTask = manager.getTaskById(1);
         updatedTask.setName("updated task1");
         request = HttpRequest.newBuilder()

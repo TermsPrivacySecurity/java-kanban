@@ -1,13 +1,13 @@
 package server;
 
+import com.google.gson.*;
 import serializers.DurationSerializer;
 import serializers.LocalDateTimeSerializer;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonSyntaxException;
 import com.sun.net.httpserver.HttpExchange;
 import exceptions.HasInteractionException;
 import manager.TaskManager;
+import serializers.SubtaskDeserializer;
+import serializers.TaskDeserializer;
 import task.Epic;
 import task.Subtask;
 import task.Task;
@@ -23,6 +23,8 @@ public class BaseHttpHandler {
     protected Gson gson = new GsonBuilder()
             .registerTypeAdapter(Duration.class, new DurationSerializer())
             .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer())
+            .registerTypeAdapter(Task.class, new TaskDeserializer())
+            .registerTypeAdapter(Subtask.class, new SubtaskDeserializer())
             .create();
 
     protected static Endpoint getEndpoint(HttpExchange exchange) {

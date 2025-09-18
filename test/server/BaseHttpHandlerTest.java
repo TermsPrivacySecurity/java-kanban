@@ -8,6 +8,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import serializers.DurationSerializer;
 import serializers.LocalDateTimeSerializer;
+import serializers.SubtaskDeserializer;
+import serializers.TaskDeserializer;
 import task.Epic;
 import task.Subtask;
 import task.Task;
@@ -33,6 +35,8 @@ class BaseHttpHandlerTest {
     Gson gson = new GsonBuilder()
             .registerTypeAdapter(Duration.class, new DurationSerializer())
             .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer())
+            .registerTypeAdapter(Task.class, new TaskDeserializer())
+            .registerTypeAdapter(Subtask.class, new SubtaskDeserializer())
             .create();
 
     @BeforeEach

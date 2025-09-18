@@ -134,7 +134,7 @@ class EpicsHandlerTest extends BaseHttpHandlerTest {
                 .header("Accept", "application/json")
                 .build();
         response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        assertEquals(404, response.statusCode());
+        assertEquals(400, response.statusCode());
 
         request = HttpRequest.newBuilder()
                 .GET()

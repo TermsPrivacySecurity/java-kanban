@@ -31,10 +31,8 @@ public class EpicsHandler extends BaseHttpHandler implements HttpHandler {
             int id = Integer.parseInt(exchange.getRequestURI().getPath().split("/")[2]);
             String response = gson.toJson(manager.getSubtaskListByEpic(id));
             sendText(exchange, response);
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException | NullPointerException e) {
             sendResponse(exchange, 400, "Bad request: incorrect EPIC ID.");
-        } catch (NullPointerException e) {
-            sendResponse(exchange, 404, "EPIC not found.");
         }
     }
 }
