@@ -1,5 +1,6 @@
 package manager;
 
+import exceptions.HasInteractionException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import task.*;
@@ -47,10 +48,12 @@ abstract class TaskManagerTest<T extends TaskManager> {
     }
 
     @Test
-    public void shouldBeNegativeWhenTaskIsCrossing() {
+    public void shouldBeNegativeWhenTaskIsCrossing() throws HasInteractionException {
         Task crossingTask = new Task("crossing task", "this task crossing with task1",
                 60, LocalDateTime.parse("2025-01-01T09:20:00"));
-        taskManager.addNewTask(crossingTask);
+        HasInteractionException thrown = assertThrows(HasInteractionException.class, () -> {
+            taskManager.addNewTask(crossingTask);
+        });
         assertFalse(taskManager.getPrioritizedTasks().contains(crossingTask));
     }
 

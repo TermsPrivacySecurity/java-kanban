@@ -1,5 +1,6 @@
 package manager;
 
+import exceptions.HasInteractionException;
 import task.Epic;
 import task.TaskStatus;
 import task.Subtask;
@@ -41,9 +42,13 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public List<Subtask> getSubtaskListByEpic(int epicId) {
-        return subtasks.values().stream()
-                .filter(subtask -> epicId == subtask.getEpicId())
-                .toList();
+        if (epics.containsKey(epicId)) {
+            return subtasks.values().stream()
+                    .filter(subtask -> epicId == subtask.getEpicId())
+                    .toList();
+        } else {
+            throw new NullPointerException("Epic not found.");
+        }
     }
 
     @Override
@@ -82,29 +87,31 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public Task getTaskById(int taskId) {
+    public Task getTaskById(int taskId) throws NullPointerException {
         historyManager.add(tasks.get(taskId));
         return tasks.get(taskId);
     }
 
     @Override
-    public Epic getEpicById(int epicId) {
+    public Epic getEpicById(int epicId) throws NullPointerException {
         historyManager.add(epics.get(epicId));
         return epics.get(epicId);
     }
 
     @Override
-    public Subtask getSubtaskById(int subtaskId) {
+    public Subtask getSubtaskById(int subtaskId) throws NullPointerException {
         historyManager.add(subtasks.get(subtaskId));
         return subtasks.get(subtaskId);
     }
 
     @Override
-    public void addNewTask(Task newTask) {
+    public void addNewTask(Task newTask) throws HasInteractionException {
         if (isNotCrossing(newTask)) {
             newTask.setId(nextId++);
             tasks.put(newTask.getId(), newTask);
             prioritizedTasks.add(newTask);
+        } else {
+            throw new HasInteractionException("Task is interacting.");
         }
     }
 
@@ -115,52 +122,60 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void addNewSubtask(Subtask newSubtask) {
+    public void addNewSubtask(Subtask newSubtask) throws HasInteractionException {
         if (isNotCrossing(newSubtask)) {
             newSubtask.setId(nextId++);
             subtasks.put(newSubtask.getId(), newSubtask);
             prioritizedTasks.add(newSubtask);
             epics.get(newSubtask.getEpicId()).getSubtaskIds().add(newSubtask.getId());
             calculateEpicFields(newSubtask.getEpicId());
+        } else {
+            throw new HasInteractionException("Subtask is interacting.");
         }
     }
 
     @Override
-    public void updateTasks(Task task) {
+    public void updateTasks(Task task) throws NullPointerException {
         if (tasks.containsKey(task.getId())) {
             tasks.put(task.getId(), task);
             prioritizedTasks.remove(task);
             prioritizedTasks.add(task);
+        } else {
+            throw new NullPointerException("Task not found.");
         }
     }
 
     @Override
-    public void updateEpics(Epic epic) {
+    public void updateEpics(Epic epic) throws NullPointerException {
         if (epics.containsKey(epic.getId())) {
             epics.put(epic.getId(), epic);
             calculateEpicFields(epic.getId());
+        } else {
+            throw new NullPointerException("Epic not found.");
         }
     }
 
     @Override
-    public void updateSubtasks(Subtask subtask) {
+    public void updateSubtasks(Subtask subtask) throws NullPointerException {
         if (subtasks.containsKey(subtask.getId())) {
             subtasks.put(subtask.getId(), subtask);
             prioritizedTasks.remove(subtask);
             prioritizedTasks.add(subtask);
             calculateEpicFields(subtask.getEpicId());
+        } else {
+            throw new NullPointerException("Subtask not found.");
         }
     }
 
     @Override
-    public void removeTaskById(int taskId) {
+    public void removeTaskById(int taskId) throws NullPointerException {
         historyManager.remove(taskId);
         prioritizedTasks.remove(tasks.get(taskId));
         tasks.remove(taskId);
     }
 
     @Override
-    public void removeEpicById(int epicId) {
+    public void removeEpicById(int epicId) throws NullPointerException {
         for (int subtaskId : epics.get(epicId).getSubtaskIds()) {
             historyManager.remove(subtaskId);
             prioritizedTasks.remove(subtasks.get(subtaskId));
@@ -171,7 +186,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void removeSubtaskById(int subtaskId) {
+    public void removeSubtaskById(int subtaskId) throws NullPointerException {
         int epicId = subtasks.get(subtaskId).getEpicId();
         epics.get(epicId).getSubtaskIds().remove(Integer.valueOf(subtaskId));
         historyManager.remove(subtaskId);
